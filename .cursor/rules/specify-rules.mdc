@@ -4,5 +4,12 @@ alwaysApply: true
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read the current plan:
+`specs/001-keeply-flutter-app/plan.md`
+
+For any Spec Kit document or Flutter UI work, always use both design sources
+together:
+- `.specify/design-token.json` for exact token values
+- `.specify/assets/design-system-v1.jpeg` for visual layout, component, and
+  screen reference
 <!-- SPECKIT END -->

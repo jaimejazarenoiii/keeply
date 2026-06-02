@@ -1,0 +1,25 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    inference_failure_on_collection_literal: ignore
+
+linter:
+  rules:
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: false
+    always_put_required_named_parameters_first: false
+    avoid_types_on_closure_parameters: false
+    curly_braces_in_flow_control_structures: false
+    discarded_futures: false
+    empty_catches: false
+    one_member_abstracts: false
+    prefer_foreach: false
+    prefer_initializing_formals: false
+    sort_pub_dependencies: false
+    specify_nonobvious_property_types: false

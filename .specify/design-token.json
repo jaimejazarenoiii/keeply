@@ -1,0 +1,127 @@
+{
+  "brand": {
+    "name": "Keeply",
+    "tagline": "Track your items. Know where they are."
+  },
+  "colors": {
+    "primary": "#22C55E",
+    "primaryDark": "#16A34A",
+    "primaryLight": "#DCFCE7",
+
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+
+    "textPrimary": "#0F172A",
+    "textSecondary": "#64748B",
+    "textTertiary": "#94A3B8",
+
+    "border": "#E2E8F0",
+    "divider": "#F1F5F9",
+
+    "success": "#22C55E",
+    "warning": "#F59E0B",
+    "error": "#EF4444"
+  },
+  "typography": {
+    "fontFamily": "Inter",
+    "display": {
+      "fontSize": 36,
+      "fontWeight": 700,
+      "lineHeight": 44
+    },
+    "h1": {
+      "fontSize": 28,
+      "fontWeight": 700,
+      "lineHeight": 34
+    },
+    "h2": {
+      "fontSize": 24,
+      "fontWeight": 600,
+      "lineHeight": 30
+    },
+    "h3": {
+      "fontSize": 20,
+      "fontWeight": 600,
+      "lineHeight": 26
+    },
+    "bodyLarge": {
+      "fontSize": 16,
+      "fontWeight": 400,
+      "lineHeight": 24
+    },
+    "body": {
+      "fontSize": 14,
+      "fontWeight": 400,
+      "lineHeight": 20
+    },
+    "caption": {
+      "fontSize": 12,
+      "fontWeight": 400,
+      "lineHeight": 16
+    }
+  },
+  "radius": {
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 24,
+    "xl": 32,
+    "pill": 999
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32,
+    "xxl": 48
+  },
+  "elevation": {
+    "card": {
+      "blur": 16,
+      "opacity": 0.06,
+      "y": 4
+    },
+    "floating": {
+      "blur": 24,
+      "opacity": 0.10,
+      "y": 8
+    }
+  },
+  "components": {
+    "button": {
+      "height": 56,
+      "radius": 18
+    },
+    "textField": {
+      "height": 56,
+      "radius": 16
+    },
+    "card": {
+      "radius": 20,
+      "padding": 16
+    },
+    "bottomSheet": {
+      "radius": 28
+    },
+    "chip": {
+      "height": 32,
+      "radius": 999
+    }
+  },
+  "navigation": {
+    "bottomBarHeight": 72,
+    "fabSize": 64
+  },
+  "screens": {
+    "onboarding": true,
+    "home": true,
+    "spaces": true,
+    "containers": true,
+    "items": true,
+    "search": true,
+    "itemDetail": true,
+    "addItem": true,
+    "settings": true
+  }
+}

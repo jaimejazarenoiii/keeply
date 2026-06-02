@@ -40,7 +40,18 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Flutter Style**: Plan identifies linting, `dart format`, two-space
+  indentation, and how long or complex widget code will be decomposed.
+- **Testable Design**: Each user story has an independent verification path,
+  with dependencies made injectable or replaceable where needed.
+- **Testing Standards**: Unit, widget, and integration test coverage is
+  identified for logic, UI behavior, and cross-screen/platform flows.
+- **UX Consistency**: Shared components, design tokens, navigation patterns,
+  loading states, empty states, error states, and accessibility needs are
+  documented.
+- **Performance and Lifecycle Safety**: Performance targets, memory risk areas,
+  and disposal/cancellation ownership for controllers, subscriptions, timers,
+  listeners, animations, and focus nodes are documented.
 
 ## Project Structure
 

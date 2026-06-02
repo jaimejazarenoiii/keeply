@@ -98,6 +98,19 @@
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
+### Quality Requirements
+
+- **QR-001**: Feature MUST define unit, widget, and integration test needs,
+  or state why a test type is not applicable.
+- **QR-002**: UI changes MUST define loading, empty, error, and success states
+  using existing design patterns.
+- **QR-003**: Feature MUST define accessibility expectations, including labels,
+  focus order, contrast, and text scaling where user interface is affected.
+- **QR-004**: Feature MUST define performance expectations for rendering,
+  response time, memory, or offline behavior where relevant.
+- **QR-005**: Feature MUST identify lifecycle-owned resources that need
+  disposal, cancellation, or leak-focused review.
+
 ### Key Entities *(include if feature involves data)*
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
