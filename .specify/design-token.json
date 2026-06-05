@@ -5,6 +5,9 @@
   },
   "colors": {
     "primary": "#22C55E",
+    "secondary": "#0F172A",
+    "onSecondary": "#FFFFFF",
+    "onSecondaryMuted": "#CBD5E1",
     "primaryDark": "#16A34A",
     "primaryLight": "#DCFCE7",
 

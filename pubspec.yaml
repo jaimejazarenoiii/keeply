@@ -43,6 +43,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
   equatable: ^2.0.8
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,21 @@ dev_dependencies:
   very_good_analysis: ^10.2.0
   bloc_test: ^10.0.0
   mocktail: ^1.0.5
+  flutter_native_splash: ^2.4.8
+
+flutter_native_splash:
+  background_image: assets/images/splash.png
+  fullscreen: true
+  android: true
+  ios: true
+  web: false
+  android_gravity: fill
+  ios_content_mode: scaleAspectFill
+
+  android_12:
+    color: "#0F172A"
+    image: assets/images/logo-compact.png
+    icon_background_color: "#0F172A"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -73,6 +89,8 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
+    - assets/icons/
     - .specify/design-token.json
     - .specify/assets/design-system-v1.jpeg
 

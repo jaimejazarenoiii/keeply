@@ -40,6 +40,26 @@ flutter analyze
 flutter test
 ```
 
+## Dashboard
+
+Authenticated users land on the Dashboard at `/dashboard`. It shows a logo
+header, profile/settings entry point, search across loaded Spaces, Containers,
+and Items, overview counts, recent sections, skeleton loading, retryable errors,
+empty states, pull-to-refresh, and a desktop max-width layout.
+
+The dashboard expects the optional logo asset at:
+
+```text
+assets/images/logo.png
+```
+
+If the logo file is not present yet, the UI falls back to the Keeply wordmark so
+local runs do not crash while assets are being prepared.
+
 ## Auth Flow
 
-The app starts at an auth gate, checks secure token storage, routes authenticated users to Spaces, and routes unauthenticated users to login. Protected requests attach a Bearer access token. Token-related 401 responses attempt refresh once, replace rotated tokens, and retry the original request. If refresh fails, tokens are cleared and the user returns to login.
+The app starts at an auth gate, checks secure token storage, routes authenticated
+users to the Dashboard, and routes unauthenticated users to login. Protected
+requests attach a Bearer access token. Token-related 401 responses attempt
+refresh once, replace rotated tokens, and retry the original request. If refresh
+fails, tokens are cleared and the user returns to login.

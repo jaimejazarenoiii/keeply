@@ -35,6 +35,9 @@ class TokenParser {
           'Track your items. Know where they are.',
       colors: AppColors(
         primary: _color(colors['primary'], 0xFF22C55E),
+        secondary: _color(colors['secondary'], 0xFF0F172A),
+        onSecondary: _color(colors['onSecondary'], 0xFFFFFFFF),
+        onSecondaryMuted: _color(colors['onSecondaryMuted'], 0xFFCBD5E1),
         primaryDark: _color(colors['primaryDark'], 0xFF16A34A),
         primaryLight: _color(colors['primaryLight'], 0xFFDCFCE7),
         background: _color(colors['background'], 0xFFFAFAFA),

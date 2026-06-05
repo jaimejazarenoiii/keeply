@@ -4,6 +4,25 @@ import 'package:keeply/core/theme/design_tokens.dart';
 class AppTheme {
   static final DesignTokens tokens = DesignTokens.fallback();
 
+  static TextTheme secondaryTextTheme() {
+    final colors = tokens.colors;
+    return TextTheme(
+      headlineLarge: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        color: colors.onSecondary,
+      ),
+      titleLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: colors.onSecondary,
+      ),
+      bodyLarge: TextStyle(fontSize: 16, color: colors.onSecondary),
+      bodyMedium: TextStyle(fontSize: 14, color: colors.onSecondaryMuted),
+      labelSmall: TextStyle(fontSize: 12, color: colors.onSecondaryMuted),
+    );
+  }
+
   static ThemeData light() {
     final colors = tokens.colors;
     return ThemeData(
@@ -11,10 +30,12 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: colors.primary,
         primary: colors.primary,
+        secondary: colors.secondary,
+        onSecondary: colors.onSecondary,
         surface: colors.surface,
         error: colors.error,
       ),
-      scaffoldBackgroundColor: colors.background,
+      scaffoldBackgroundColor: Colors.transparent,
       fontFamily: 'Inter',
       textTheme: TextTheme(
         displayLarge: TextStyle(

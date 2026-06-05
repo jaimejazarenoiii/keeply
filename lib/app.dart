@@ -4,6 +4,7 @@ import 'package:keeply/core/di/service_locator.dart';
 import 'package:keeply/core/routing/app_router.dart';
 import 'package:keeply/core/theme/app_theme.dart';
 import 'package:keeply/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:keeply/shared/widgets/app_background_pattern.dart';
 
 class KeeplyApp extends StatefulWidget {
   const KeeplyApp({super.key});
@@ -39,6 +40,18 @@ class _KeeplyAppState extends State<KeeplyApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
         routerConfig: _appRouter.router,
+        builder: (context, child) {
+          return ColoredBox(
+            color: AppTheme.tokens.colors.background,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                const AppBackgroundPattern(),
+                ?child,
+              ],
+            ),
+          );
+        },
       ),
     );
   }

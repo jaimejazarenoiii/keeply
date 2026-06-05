@@ -12,6 +12,7 @@ import 'package:keeply/features/auth/domain/auth_repository.dart';
 import 'package:keeply/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:keeply/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:keeply/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:keeply/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:keeply/features/storage/data/storage_api.dart';
 import 'package:keeply/features/storage/data/storage_repository_impl.dart';
 import 'package:keeply/features/storage/domain/storage_repository.dart';
@@ -78,6 +79,9 @@ Future<void> setupServiceLocator() async {
     ..registerLazySingleton<StorageApi>(() => StorageApi(sl<ApiClient>()))
     ..registerLazySingleton<StorageRepository>(
       () => StorageRepositoryImpl(sl<StorageApi>()),
+    )
+    ..registerFactory<DashboardBloc>(
+      () => DashboardBloc(sl<StorageRepository>()),
     )
     ..registerFactory<SpacesCubit>(() => SpacesCubit(sl<StorageRepository>()))
     ..registerFactory<SpaceTreeCubit>(

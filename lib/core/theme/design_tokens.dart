@@ -15,6 +15,9 @@ class DesignTokens {
     tagline: 'Track your items. Know where they are.',
     colors: AppColors(
       primary: Color(0xFF22C55E),
+      secondary: Color(0xFF0F172A),
+      onSecondary: Color(0xFFFFFFFF),
+      onSecondaryMuted: Color(0xFFCBD5E1),
       primaryDark: Color(0xFF16A34A),
       primaryLight: Color(0xFFDCFCE7),
       background: Color(0xFFFAFAFA),
@@ -54,6 +57,9 @@ class DesignTokens {
 class AppColors {
   const AppColors({
     required this.primary,
+    required this.secondary,
+    required this.onSecondary,
+    required this.onSecondaryMuted,
     required this.primaryDark,
     required this.primaryLight,
     required this.background,
@@ -68,6 +74,9 @@ class AppColors {
     required this.error,
   });
   final Color primary;
+  final Color secondary;
+  final Color onSecondary;
+  final Color onSecondaryMuted;
   final Color primaryDark;
   final Color primaryLight;
   final Color background;

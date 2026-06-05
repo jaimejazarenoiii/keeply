@@ -8,6 +8,7 @@ import 'package:keeply/features/auth/presentation/pages/auth_gate_page.dart';
 import 'package:keeply/features/auth/presentation/pages/login_page.dart';
 import 'package:keeply/features/auth/presentation/pages/register_page.dart';
 import 'package:keeply/features/auth/presentation/pages/settings_page.dart';
+import 'package:keeply/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:keeply/features/storage/presentation/pages/container_detail_page.dart';
 import 'package:keeply/features/storage/presentation/pages/container_form_page.dart';
 import 'package:keeply/features/storage/presentation/pages/item_detail_page.dart';
@@ -32,7 +33,7 @@ class AppRouter {
           if (auth is AuthUnauthenticated || auth is AuthFailure)
             return authPage ? null : '/login';
           if (auth is AuthAuthenticated && (authPage || location == '/splash'))
-            return '/spaces';
+            return '/dashboard';
           return null;
         },
         routes: [
@@ -47,6 +48,10 @@ class AppRouter {
           GoRoute(
             path: '/register',
             builder: (context, state) => const RegisterPage(),
+          ),
+          GoRoute(
+            path: '/dashboard',
+            builder: (context, state) => const DashboardPage(),
           ),
           GoRoute(
             path: '/spaces',
