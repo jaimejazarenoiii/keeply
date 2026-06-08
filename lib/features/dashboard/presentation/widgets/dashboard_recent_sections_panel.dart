@@ -18,13 +18,16 @@ class DashboardRecentSectionsPanel extends StatelessWidget {
     final spacing = AppTheme.tokens.spacing;
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
+    final safeMinHeight =
+        minHeight != null && minHeight!.isFinite && minHeight! > 0
+        ? minHeight
+        : null;
+
     return Container(
       width: double.infinity,
-      constraints: minHeight == null
+      constraints: safeMinHeight == null
           ? null
-          : BoxConstraints(
-              minHeight: minHeight!.clamp(0, double.infinity),
-            ),
+          : BoxConstraints(minHeight: safeMinHeight!),
       padding: EdgeInsets.fromLTRB(
         spacing.lg,
         spacing.xl,

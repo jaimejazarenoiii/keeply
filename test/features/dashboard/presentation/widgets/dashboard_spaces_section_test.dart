@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:keeply/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:keeply/features/dashboard/presentation/widgets/dashboard_spaces_section.dart';
@@ -43,10 +44,12 @@ void main() {
         onShowAll: () => showAllTapped = true,
         onCreateSpace: () {},
       ),
+      size: const Size(1600, 800),
     );
 
     expect(find.text('Space 0'), findsOneWidget);
     expect(find.text('Space 5'), findsNothing);
+    expect(find.text('Add Space'), findsOneWidget);
     await tester.tap(find.text('Show all Spaces'));
     expect(showAllTapped, isTrue);
   });

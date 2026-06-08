@@ -211,11 +211,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   final StorageRepository _repository;
+  var _requestGeneration = 0;
 
   Future<void> _onRequested(
     DashboardRequested event,
     Emitter<DashboardState> emit,
   ) async {
+    final generation = ++_requestGeneration;
+    final query = state.query;
     final previous = state is DashboardLoaded
         ? (state as DashboardLoaded).summary
         : null;
@@ -223,29 +226,27 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       emit(
         DashboardLoaded(
           summary: previous,
-          query: state.query,
+          query: query,
           isRefreshing: true,
         ),
       );
     } else {
-      emit(DashboardLoading(query: state.query));
+      emit(DashboardLoading(query: query));
     }
 
     try {
       final summary = await _loadSummary();
-      if (!emit.isDone) {
-        emit(DashboardLoaded(summary: summary, query: state.query));
-      }
+      if (isClosed || generation != _requestGeneration || emit.isDone) return;
+      emit(DashboardLoaded(summary: summary, query: query));
     } on Object {
-      if (!emit.isDone) {
-        emit(
-          DashboardError(
-            message: 'Unable to load dashboard. Please try again.',
-            query: state.query,
-            previous: previous,
-          ),
-        );
-      }
+      if (isClosed || generation != _requestGeneration || emit.isDone) return;
+      emit(
+        DashboardError(
+          message: 'Unable to load dashboard. Please try again.',
+          query: query,
+          previous: previous,
+        ),
+      );
     }
   }
 

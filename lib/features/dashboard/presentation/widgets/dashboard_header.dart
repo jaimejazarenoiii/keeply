@@ -23,7 +23,7 @@ class DashboardHeader extends StatelessWidget {
             button: true,
             label: 'Open profile and settings',
             child: IconButton.filledTonal(
-              onPressed: () => context.go('/settings'),
+              onPressed: () => context.push('/settings'),
               icon: const Icon(Icons.person_outline),
             ),
           ),

@@ -65,6 +65,7 @@ class DashboardCreateFabState extends State<DashboardCreateFab>
   }
 
   void _onAnimationStatusChanged(AnimationStatus status) {
+    if (!mounted) return;
     widget.onOpenChanged(status != AnimationStatus.dismissed);
   }
 

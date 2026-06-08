@@ -16,6 +16,7 @@ import 'package:keeply/features/dashboard/presentation/widgets/dashboard_spaces_
 import 'package:keeply/features/dashboard/presentation/widgets/empty_states/dashboard_empty_state.dart';
 import 'package:keeply/features/dashboard/presentation/widgets/empty_states/dashboard_error_view.dart';
 import 'package:keeply/features/dashboard/presentation/widgets/loading/dashboard_skeleton.dart';
+import 'package:keeply/shared/widgets/app_background_pattern.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -52,11 +53,12 @@ class _DashboardViewState extends State<_DashboardView> {
           return DashboardCreateFab(
             key: _createFabKey,
             onOpenChanged: (isOpen) {
+              if (!mounted) return;
               setState(() => _createMenuOpen = isOpen);
             },
-            onCreateSpace: () => context.go('/spaces/new'),
+            onCreateSpace: () => context.push('/spaces/new'),
             onCreateContainer: () => _openCreateContainer(context, state),
-            onCreateItem: () => context.go('/items/new'),
+            onCreateItem: () => context.push('/items/new'),
           );
         },
       ),
@@ -64,6 +66,9 @@ class _DashboardViewState extends State<_DashboardView> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          const AppBackgroundPattern(
+            variant: AppBackgroundPatternVariant.dashboard,
+          ),
           DashboardResponsiveContainer(
             child: BlocBuilder<DashboardBloc, DashboardState>(
               builder: (context, state) {
@@ -108,10 +113,10 @@ class _DashboardViewState extends State<_DashboardView> {
   void _openCreateContainer(BuildContext context, DashboardLoaded state) {
     final spaces = state.summary.latestSpaces;
     if (spaces.isEmpty) {
-      context.go('/spaces/new');
+      context.push('/spaces/new');
       return;
     }
-    context.go('/containers/new/${spaces.first.id}');
+    context.push('/containers/new/${spaces.first.id}');
   }
 }
 
@@ -151,9 +156,9 @@ class _LoadedDashboard extends StatelessWidget {
                   
                   DashboardOverviewCards(
                     summary: summary,
-                    onSpacesTap: () => context.go('/spaces'),
-                    onContainersTap: () => context.go('/spaces'),
-                    onItemsTap: () => context.go('/spaces'),
+                    onSpacesTap: () => context.push('/spaces'),
+                    onContainersTap: () => context.push('/spaces'),
+                    onItemsTap: () => context.push('/spaces'),
                   ),
                   SizedBox(height: spacing.lg),
                   DashboardSearchPrompt(
@@ -168,7 +173,7 @@ class _LoadedDashboard extends StatelessWidget {
                       message:
                           'Create your first Space to start organizing your things.',
                       actionLabel: 'Create Space',
-                      onAction: () => context.go('/spaces/new'),
+                      onAction: () => context.push('/spaces/new'),
                     ),
                   ] else
                     SizedBox(height: spacing.lg),
@@ -179,20 +184,22 @@ class _LoadedDashboard extends StatelessWidget {
           if (showRecentPanel)
             SliverLayoutBuilder(
               builder: (context, constraints) {
-                final remainingHeight =
-                    constraints.remainingPaintExtent.clamp(0.0, double.infinity);
+                final remaining = constraints.remainingPaintExtent;
+                final minHeight = remaining.isFinite && remaining > 0
+                    ? remaining
+                    : null;
                 return SliverToBoxAdapter(
                   child: DashboardRecentSectionsPanel(
-                    minHeight: remainingHeight > 0 ? remainingHeight : null,
+                    minHeight: minHeight,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         DashboardSpacesSection(
                           spaces: summary.latestSpaces,
                           onOpenSpace: (space) =>
-                              context.go('/spaces/${space.id}'),
-                          onShowAll: () => context.go('/spaces'),
-                          onCreateSpace: () => context.go('/spaces/new'),
+                              context.push('/spaces/${space.id}'),
+                          onShowAll: () => context.push('/spaces'),
+                          onCreateSpace: () => context.push('/spaces/new'),
                         ),
                         SizedBox(height: spacing.md),
                         Divider(color: AppTheme.tokens.colors.divider),
@@ -200,9 +207,9 @@ class _LoadedDashboard extends StatelessWidget {
                         DashboardContainersSection(
                           containers: summary.latestContainers,
                           onOpenContainer: (container) =>
-                              context.go('/containers/${container.id}'),
-                          onShowAll: () => context.go('/spaces'),
-                          onCreateSpace: () => context.go('/spaces'),
+                              context.push('/containers/${container.id}'),
+                          onShowAll: () => context.push('/spaces'),
+                          onCreateSpace: () => context.push('/spaces'),
                         ),
                         SizedBox(height: spacing.md),
                         Divider(color: AppTheme.tokens.colors.divider),
@@ -210,9 +217,9 @@ class _LoadedDashboard extends StatelessWidget {
                         DashboardItemsSection(
                           items: summary.latestItems,
                           onOpenItem: (item) =>
-                              context.go('/items/${item.id}'),
-                          onShowAll: () => context.go('/spaces'),
-                          onCreateSpace: () => context.go('/spaces'),
+                              context.push('/items/${item.id}'),
+                          onShowAll: () => context.push('/spaces'),
+                          onCreateSpace: () => context.push('/spaces'),
                         ),
                       ],
                     ),
