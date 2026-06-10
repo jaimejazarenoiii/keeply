@@ -1,13 +1,15 @@
+import 'package:keeply/features/storage/domain/entities/dashboard_api_summary.dart';
 import 'package:keeply/features/storage/domain/entities/item_path.dart';
 import 'package:keeply/features/storage/domain/entities/storage_node.dart';
 import 'package:keeply/features/storage/domain/entities/storage_tree_node.dart';
 
 abstract class StorageRepository {
+  Future<DashboardApiSummary> getDashboardSummary();
   Future<List<StorageNode>> listSpaces();
   Future<StorageNode> createSpace(String name);
   Future<StorageNode> updateSpace(String id, String name);
   Future<void> deleteSpace(String id);
-  Future<StorageTreeNode> getSpaceTree(String id);
+  Future<StorageTreeNode> getSpaceTree(String id, {int? depth});
   Future<StorageNode> createContainer({
     required String name,
     required String parentId,
@@ -18,7 +20,7 @@ abstract class StorageRepository {
     required String id,
     required String parentId,
   });
-  Future<StorageTreeNode> getContainerTree(String id);
+  Future<StorageTreeNode> getContainerTree(String id, {int? depth});
   Future<List<StorageNode>> listContainerItems(String id);
   Future<StorageNode> createItem({
     required String name,

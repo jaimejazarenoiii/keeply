@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keeply/features/dashboard/presentation/bloc/dashboard_bloc.dart';
-import 'package:keeply/features/dashboard/presentation/widgets/dashboard_recent_row.dart';
+import 'package:keeply/features/dashboard/presentation/widgets/dashboard_preview_thumbnail_card.dart';
 
 class DashboardContainerCard extends StatelessWidget {
   const DashboardContainerCard({
@@ -14,9 +14,12 @@ class DashboardContainerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DashboardRecentRow(
+    return DashboardPreviewThumbnailCard(
       title: container.name,
-      subtitle: '${container.spaceName} · ${container.itemCount} items',
+      subtitle: [
+        if (container.spaceName.isNotEmpty) container.spaceName,
+        if (container.itemCount > 0) '${container.itemCount} items',
+      ].join(' · '),
       semanticsLabel: 'Open container ${container.name}',
       onTap: onTap,
     );

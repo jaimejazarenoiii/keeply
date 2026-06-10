@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:keeply/core/theme/app_theme.dart';
 
@@ -27,6 +28,7 @@ class DashboardRecentRow extends StatelessWidget {
     required this.onTap,
     required this.semanticsLabel,
     this.imageAsset = kDashboardNodePlaceholder,
+    this.imageUrl,
   });
 
   static const imageWidth = 80.0;
@@ -38,6 +40,7 @@ class DashboardRecentRow extends StatelessWidget {
   final VoidCallback onTap;
   final String semanticsLabel;
   final String imageAsset;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +58,7 @@ class DashboardRecentRow extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(imageRadius),
-                child: Image.asset(
-                  imageAsset,
-                  width: imageWidth,
-                  height: imageHeight,
-                  fit: BoxFit.cover,
-                ),
+                child: _buildThumbnail(),
               ),
               SizedBox(width: spacing.md),
               Expanded(
@@ -93,6 +91,30 @@ class DashboardRecentRow extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildThumbnail() {
+    if (imageUrl != null && imageUrl!.isNotEmpty) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl!,
+        width: imageWidth,
+        height: imageHeight,
+        fit: BoxFit.cover,
+        errorWidget: (_, __, ___) => Image.asset(
+          imageAsset,
+          width: imageWidth,
+          height: imageHeight,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+
+    return Image.asset(
+      imageAsset,
+      width: imageWidth,
+      height: imageHeight,
+      fit: BoxFit.cover,
     );
   }
 }

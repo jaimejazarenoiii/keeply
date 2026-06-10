@@ -6,6 +6,7 @@ import 'package:keeply/core/di/service_locator.dart';
 import 'package:keeply/core/theme/app_theme.dart';
 import 'package:keeply/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:keeply/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:keeply/features/storage/domain/entities/dashboard_api_summary.dart';
 import 'package:keeply/features/storage/domain/entities/item_path.dart';
 import 'package:keeply/features/storage/domain/entities/storage_node.dart';
 import 'package:keeply/features/storage/domain/entities/storage_tree_node.dart';
@@ -19,6 +20,41 @@ class FakeDashboardRepository implements StorageRepository {
 
   final bool shouldThrow;
   final bool neverComplete;
+
+  @override
+  Future<DashboardApiSummary> getDashboardSummary() async {
+    if (neverComplete) return Completer<DashboardApiSummary>().future;
+    if (shouldThrow) throw StateError('boom');
+    return const DashboardApiSummary(
+      counts: DashboardApiCounts(spaces: 1, containers: 1, items: 1),
+      recentSpaces: [
+        StorageNode(
+          id: 'space-1',
+          type: NodeType.space,
+          name: 'Garage',
+          spaceId: 'space-1',
+        ),
+      ],
+      recentContainers: [
+        StorageNode(
+          id: 'container-1',
+          type: NodeType.container,
+          name: 'Cable Bin',
+          parentId: 'space-1',
+          spaceId: 'space-1',
+        ),
+      ],
+      recentItems: [
+        StorageNode(
+          id: 'item-1',
+          type: NodeType.item,
+          name: 'Extension Cord',
+          parentId: 'container-1',
+          spaceId: 'space-1',
+        ),
+      ],
+    );
+  }
 
   @override
   Future<List<StorageNode>> listSpaces() async {
@@ -35,7 +71,7 @@ class FakeDashboardRepository implements StorageRepository {
   }
 
   @override
-  Future<StorageTreeNode> getSpaceTree(String id) async {
+  Future<StorageTreeNode> getSpaceTree(String id, {int? depth}) async {
     return const StorageTreeNode(
       id: 'space-1',
       type: NodeType.space,
@@ -79,7 +115,7 @@ class FakeDashboardRepository implements StorageRepository {
   @override
   Future<void> deleteSpace(String id) => throw UnimplementedError();
   @override
-  Future<StorageTreeNode> getContainerTree(String id) =>
+  Future<StorageTreeNode> getContainerTree(String id, {int? depth}) =>
       throw UnimplementedError();
   @override
   Future<StorageNode> getItem(String id) => throw UnimplementedError();

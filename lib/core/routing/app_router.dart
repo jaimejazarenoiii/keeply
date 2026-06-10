@@ -9,12 +9,13 @@ import 'package:keeply/features/auth/presentation/pages/login_page.dart';
 import 'package:keeply/features/auth/presentation/pages/register_page.dart';
 import 'package:keeply/features/auth/presentation/pages/settings_page.dart';
 import 'package:keeply/features/dashboard/presentation/pages/dashboard_page.dart';
-import 'package:keeply/features/storage/presentation/pages/container_detail_page.dart';
+import 'package:keeply/features/node_details/domain/node_route_params.dart';
+import 'package:keeply/features/storage/domain/entities/storage_node.dart';
+import 'package:keeply/features/node_details/presentation/pages/node_details_page.dart';
+import 'package:keeply/features/node_details/presentation/pages/node_explorer_page.dart';
 import 'package:keeply/features/storage/presentation/pages/container_form_page.dart';
-import 'package:keeply/features/storage/presentation/pages/item_detail_page.dart';
 import 'package:keeply/features/storage/presentation/pages/item_form_page.dart';
 import 'package:keeply/features/storage/presentation/pages/move_destination_page.dart';
-import 'package:keeply/features/storage/presentation/pages/space_detail_page.dart';
 import 'package:keeply/features/storage/presentation/pages/space_form_page.dart';
 import 'package:keeply/features/storage/presentation/pages/spaces_list_page.dart';
 import 'package:keeply/features/subscription/presentation/pages/subscription_status_page.dart';
@@ -63,8 +64,10 @@ class AppRouter {
           ),
           GoRoute(
             path: '/spaces/:spaceId',
-            builder: (context, state) =>
-                SpaceDetailPage(spaceId: state.pathParameters['spaceId']!),
+            builder: (context, state) => NodeDetailsPage(
+              nodeId: state.pathParameters['spaceId']!,
+              nodeType: NodeType.space,
+            ),
           ),
           GoRoute(
             path: '/containers/new/:parentId',
@@ -73,8 +76,9 @@ class AppRouter {
           ),
           GoRoute(
             path: '/containers/:containerId',
-            builder: (context, state) => ContainerDetailPage(
-              containerId: state.pathParameters['containerId']!,
+            builder: (context, state) => NodeDetailsPage(
+              nodeId: state.pathParameters['containerId']!,
+              nodeType: NodeType.container,
             ),
           ),
           GoRoute(
@@ -88,8 +92,32 @@ class AppRouter {
           ),
           GoRoute(
             path: '/items/:itemId',
-            builder: (context, state) =>
-                ItemDetailPage(itemId: state.pathParameters['itemId']!),
+            builder: (context, state) => NodeDetailsPage(
+              nodeId: state.pathParameters['itemId']!,
+              nodeType: NodeType.item,
+            ),
+          ),
+          GoRoute(
+            path: '/nodes/:nodeType/:nodeId',
+            builder: (context, state) => NodeDetailsPage(
+              nodeId: state.pathParameters['nodeId']!,
+              nodeType: nodeTypeFromPath(state.pathParameters['nodeType']!),
+            ),
+            routes: [
+              GoRoute(
+                path: 'explorer/:explorerType',
+                builder: (context, state) => NodeExplorerPage(
+                  parentNodeId: state.pathParameters['nodeId']!,
+                  parentNodeType: nodeTypeFromPath(
+                    state.pathParameters['nodeType']!,
+                  ),
+                  explorerType: explorerTypeFromPath(
+                    state.pathParameters['explorerType']!,
+                  ),
+                  initialQuery: state.uri.queryParameters['q'],
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: '/move/:nodeType/:nodeId',

@@ -22,10 +22,6 @@ class AppBackgroundPattern extends StatelessWidget {
         dotColor: colors.textPrimary.withValues(alpha: 0.035),
       ),
       AppBackgroundPatternVariant.dashboard => _PatternConfig(
-        showDots: true,
-        dotSpacing: 18,
-        dotRadius: 1.4,
-        dotColor: colors.primaryDark.withValues(alpha: 0.22),
         circles: [
           _PatternCircle(
             centerX: 1.02,

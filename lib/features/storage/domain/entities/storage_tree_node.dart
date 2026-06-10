@@ -9,10 +9,14 @@ class StorageTreeNode extends StorageNode {
     required super.spaceId,
     super.images,
     super.metadata,
+    super.tags,
+    super.description,
+    super.quantity,
     super.createdAt,
     super.updatedAt,
     this.children = const [],
   });
+
   factory StorageTreeNode.fromJson(Map<String, dynamic> json) {
     final node = StorageNode.fromJson(json);
     return StorageTreeNode(
@@ -23,6 +27,9 @@ class StorageTreeNode extends StorageNode {
       spaceId: node.spaceId,
       images: node.images,
       metadata: node.metadata,
+      tags: node.tags,
+      description: node.description,
+      quantity: node.quantity,
       createdAt: node.createdAt,
       updatedAt: node.updatedAt,
       children: ((json['children'] as List?) ?? const [])
@@ -31,7 +38,9 @@ class StorageTreeNode extends StorageNode {
           .toList(),
     );
   }
+
   final List<StorageTreeNode> children;
+
   @override
   List<Object?> get props => [...super.props, children];
 }

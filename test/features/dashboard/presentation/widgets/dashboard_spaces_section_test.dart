@@ -38,18 +38,21 @@ void main() {
     var showAllTapped = false;
     await pumpDashboardWidget(
       tester,
-      DashboardSpacesSection(
-        spaces: spaces,
-        onOpenSpace: (_) {},
-        onShowAll: () => showAllTapped = true,
-        onCreateSpace: () {},
+      SingleChildScrollView(
+        child: DashboardSpacesSection(
+          spaces: spaces,
+          onOpenSpace: (_) {},
+          onShowAll: () => showAllTapped = true,
+          onCreateSpace: () {},
+        ),
       ),
       size: const Size(1600, 800),
     );
 
     expect(find.text('Space 0'), findsOneWidget);
     expect(find.text('Space 5'), findsNothing);
-    expect(find.text('Add Space'), findsOneWidget);
+    expect(find.text('Add new space'), findsNothing);
+    await tester.ensureVisible(find.text('Show all Spaces'));
     await tester.tap(find.text('Show all Spaces'));
     expect(showAllTapped, isTrue);
   });

@@ -5,23 +5,13 @@ import 'package:keeply/features/dashboard/presentation/widgets/dashboard_search_
 import 'dashboard_test_helpers.dart';
 
 void main() {
-  testWidgets('shows headline and search button', (tester) async {
-    var tapped = false;
-
-    await pumpDashboardWidget(
-      tester,
-      DashboardSearchPrompt(onSearchTap: () => tapped = true),
-    );
+  testWidgets('shows search headline', (tester) async {
+    await pumpDashboardWidget(tester, const DashboardSearchPrompt());
 
     expect(
       find.text(DashboardSearchPrompt.headline),
       findsOneWidget,
     );
-    expect(find.byIcon(Icons.search), findsOneWidget);
-
-    await tester.tap(find.byIcon(Icons.search));
-    await tester.pump();
-
-    expect(tapped, isTrue);
+    expect(find.byIcon(Icons.search), findsNothing);
   });
 }

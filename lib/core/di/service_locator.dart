@@ -12,16 +12,19 @@ import 'package:keeply/features/auth/domain/auth_repository.dart';
 import 'package:keeply/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:keeply/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:keeply/features/auth/presentation/bloc/register_cubit.dart';
+import 'package:keeply/features/container/presentation/container_details_delegate.dart';
 import 'package:keeply/features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'package:keeply/features/item/presentation/item_details_delegate.dart';
+import 'package:keeply/features/node_details/data/node_details_repository_impl.dart';
+import 'package:keeply/features/node_details/domain/node_details_repository.dart';
+import 'package:keeply/features/node_details/presentation/cubit/node_details_cubit.dart';
+import 'package:keeply/features/node_details/presentation/cubit/node_explorer_cubit.dart';
+import 'package:keeply/features/space/presentation/space_details_delegate.dart';
 import 'package:keeply/features/storage/data/storage_api.dart';
 import 'package:keeply/features/storage/data/storage_repository_impl.dart';
 import 'package:keeply/features/storage/domain/storage_repository.dart';
-import 'package:keeply/features/storage/presentation/bloc/container_detail_cubit.dart';
 import 'package:keeply/features/storage/presentation/bloc/delete_node_cubit.dart';
-import 'package:keeply/features/storage/presentation/bloc/item_breadcrumb_cubit.dart';
-import 'package:keeply/features/storage/presentation/bloc/item_detail_cubit.dart';
 import 'package:keeply/features/storage/presentation/bloc/move_destination_cubit.dart';
-import 'package:keeply/features/storage/presentation/bloc/space_tree_cubit.dart';
 import 'package:keeply/features/storage/presentation/bloc/spaces_cubit.dart';
 import 'package:keeply/features/storage/presentation/bloc/storage_form_cubit.dart';
 import 'package:keeply/features/subscription/data/subscription_api.dart';
@@ -84,18 +87,20 @@ Future<void> setupServiceLocator() async {
       () => DashboardBloc(sl<StorageRepository>()),
     )
     ..registerFactory<SpacesCubit>(() => SpacesCubit(sl<StorageRepository>()))
-    ..registerFactory<SpaceTreeCubit>(
-      () => SpaceTreeCubit(sl<StorageRepository>()),
+    ..registerLazySingleton<NodeDetailsRepository>(
+      () => NodeDetailsRepositoryImpl(sl<StorageRepository>()),
     )
-    ..registerFactory<ContainerDetailCubit>(
-      () => ContainerDetailCubit(sl<StorageRepository>()),
+    ..registerFactory<NodeDetailsCubit>(
+      () => NodeDetailsCubit(sl<NodeDetailsRepository>()),
     )
-    ..registerFactory<ItemDetailCubit>(
-      () => ItemDetailCubit(sl<StorageRepository>()),
+    ..registerFactory<NodeExplorerCubit>(
+      () => NodeExplorerCubit(sl<NodeDetailsRepository>()),
     )
-    ..registerFactory<ItemBreadcrumbCubit>(
-      () => ItemBreadcrumbCubit(sl<StorageRepository>()),
+    ..registerLazySingleton<SpaceDetailsDelegate>(() => SpaceDetailsDelegate())
+    ..registerLazySingleton<ContainerDetailsDelegate>(
+      () => ContainerDetailsDelegate(),
     )
+    ..registerLazySingleton<ItemDetailsDelegate>(() => ItemDetailsDelegate())
     ..registerFactory<MoveDestinationCubit>(
       () => MoveDestinationCubit(sl<StorageRepository>()),
     )

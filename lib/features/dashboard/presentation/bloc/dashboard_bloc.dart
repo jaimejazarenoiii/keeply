@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:keeply/features/dashboard/data/dashboard_summary_mapper.dart';
 import 'package:keeply/features/storage/domain/entities/storage_node.dart';
-import 'package:keeply/features/storage/domain/entities/storage_tree_node.dart';
 import 'package:keeply/features/storage/domain/storage_repository.dart';
 
 class DashboardSummary extends Equatable {
@@ -21,6 +21,26 @@ class DashboardSummary extends Equatable {
   final List<DashboardContainer> latestContainers;
   final List<DashboardItem> latestItems;
 
+  String _spaceSearchSubtitle(DashboardSpace space) {
+    if (space.containerCount == 0 && space.itemCount == 0) return '';
+    return '${space.containerCount} containers · ${space.itemCount} items';
+  }
+
+  String _containerSearchSubtitle(DashboardContainer container) {
+    final parts = <String>[
+      if (container.spaceName.isNotEmpty) container.spaceName,
+      if (container.itemCount > 0) '${container.itemCount} items',
+    ];
+    return parts.join(' · ');
+  }
+
+  String _itemSearchSubtitle(DashboardItem item) {
+    if (item.containerName.isEmpty && item.spaceName.isEmpty) return '';
+    if (item.containerName.isEmpty) return item.spaceName;
+    if (item.spaceName.isEmpty) return item.containerName;
+    return '${item.containerName} · ${item.spaceName}';
+  }
+
   List<DashboardSearchResult> search(String query) {
     final normalized = query.trim().toLowerCase();
     if (normalized.isEmpty) return const [];
@@ -31,8 +51,7 @@ class DashboardSummary extends Equatable {
             id: space.id,
             type: NodeType.space,
             title: space.name,
-            subtitle:
-                '${space.containerCount} containers ? ${space.itemCount} items',
+            subtitle: _spaceSearchSubtitle(space),
           ),
       for (final container in latestContainers)
         if (container.name.toLowerCase().contains(normalized) ||
@@ -41,7 +60,7 @@ class DashboardSummary extends Equatable {
             id: container.id,
             type: NodeType.container,
             title: container.name,
-            subtitle: container.spaceName,
+            subtitle: _containerSearchSubtitle(container),
           ),
       for (final item in latestItems)
         if (item.name.toLowerCase().contains(normalized) ||
@@ -51,9 +70,7 @@ class DashboardSummary extends Equatable {
             id: item.id,
             type: NodeType.item,
             title: item.name,
-            subtitle: item.containerName.isEmpty
-                ? item.spaceName
-                : '${item.containerName} ? ${item.spaceName}',
+            subtitle: _itemSearchSubtitle(item),
           ),
     ];
   }
@@ -277,92 +294,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   }
 
   Future<DashboardSummary> _loadSummary() async {
-    final spaces = await _repository.listSpaces();
-    final trees = <StorageTreeNode>[];
-    for (final space in spaces) {
-      try {
-        trees.add(await _repository.getSpaceTree(space.id));
-      } on Object {
-        // Keep dashboard usable if one tree fails.
-      }
-    }
-
-    final containers = <DashboardContainer>[];
-    final items = <DashboardItem>[];
-    var totalContainers = 0;
-    var totalItems = 0;
-
-    void visit(
-      StorageTreeNode node,
-      String spaceId,
-      String spaceName, [
-      String containerId = '',
-      String containerName = '',
-    ]) {
-      switch (node.type) {
-        case NodeType.space:
-          for (final child in node.children) {
-            visit(child, node.id, node.name);
-          }
-        case NodeType.container:
-          totalContainers++;
-          final directItems = node.children
-              .where((child) => child.type == NodeType.item)
-              .length;
-          containers.add(
-            DashboardContainer(
-              id: node.id,
-              name: node.name,
-              spaceId: spaceId,
-              spaceName: spaceName,
-              itemCount: directItems,
-            ),
-          );
-          for (final child in node.children) {
-            visit(child, spaceId, spaceName, node.id, node.name);
-          }
-        case NodeType.item:
-          totalItems++;
-          items.add(
-            DashboardItem(
-              id: node.id,
-              name: node.name,
-              containerId: containerId,
-              containerName: containerName,
-              spaceId: spaceId,
-              spaceName: spaceName,
-            ),
-          );
-      }
-    }
-
-    for (final tree in trees) {
-      visit(tree, tree.id, tree.name);
-    }
-
-    return DashboardSummary(
-      totalSpaces: spaces.length,
-      totalContainers: totalContainers,
-      totalItems: totalItems,
-      latestSpaces: [
-        for (final tree in trees.take(5))
-          DashboardSpace(
-            id: tree.id,
-            name: tree.name,
-            containerCount: _countType(tree, NodeType.container),
-            itemCount: _countType(tree, NodeType.item),
-          ),
-      ],
-      latestContainers: containers.take(5).toList(),
-      latestItems: items.take(10).toList(),
-    );
-  }
-
-  int _countType(StorageTreeNode node, NodeType type) {
-    var count = node.type == type ? 1 : 0;
-    for (final child in node.children) {
-      count += _countType(child, type);
-    }
-    return count;
+    final apiSummary = await _repository.getDashboardSummary();
+    return mapDashboardApiSummary(apiSummary);
   }
 }

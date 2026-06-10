@@ -19,8 +19,6 @@ class DashboardSpacesSection extends StatelessWidget {
   final VoidCallback onShowAll;
   final VoidCallback onCreateSpace;
 
-  static const _listHeight = 228.0;
-
   @override
   Widget build(BuildContext context) {
     if (spaces.isEmpty) {
@@ -39,25 +37,14 @@ class DashboardSpacesSection extends StatelessWidget {
       title: 'Recent Spaces',
       useSecondaryHeading: true,
       children: [
-        SizedBox(
-          height: _listHeight,
-          child: ListView.separated(
-            padding: EdgeInsets.only(top: spacing.md),
-            scrollDirection: Axis.horizontal,
-            itemCount: visible.length + 1,
-            separatorBuilder: (_, __) => SizedBox(width: spacing.md),
-            itemBuilder: (context, index) {
-              if (index == visible.length) {
-                return DashboardAddSpaceCard(onTap: onCreateSpace);
-              }
-              final space = visible[index];
-              return DashboardSpaceCard(
-                space: space,
-                onTap: () => onOpenSpace(space),
-              );
-            },
+        SizedBox(height: spacing.md),
+        for (var i = 0; i < visible.length; i++) ...[
+          DashboardSpaceCard(
+            space: visible[i],
+            onTap: () => onOpenSpace(visible[i]),
           ),
-        ),
+          if (i < visible.length - 1) SizedBox(height: spacing.md),
+        ],
         TextButton(
           onPressed: onShowAll,
           style: TextButton.styleFrom(

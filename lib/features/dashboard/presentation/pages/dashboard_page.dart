@@ -151,22 +151,20 @@ class _LoadedDashboard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const DashboardHeader(),
+                  DashboardHeader(
+                    onSearchTap: () {
+                      // Dedicated search view will be wired here.
+                    },
+                  ),
                   SizedBox(height: spacing.lg),
-                  
+                  const DashboardSearchPrompt(),
+                  SizedBox(height: spacing.lg),
                   DashboardOverviewCards(
                     summary: summary,
                     onSpacesTap: () => context.push('/spaces'),
                     onContainersTap: () => context.push('/spaces'),
                     onItemsTap: () => context.push('/spaces'),
                   ),
-                  SizedBox(height: spacing.lg),
-                  DashboardSearchPrompt(
-                    onSearchTap: () {
-                      // Dedicated search view will be wired here.
-                    },
-                  ),
-                  SizedBox(height: spacing.sm),
                   if (!hasContent) ...[
                     SizedBox(height: spacing.lg),
                     DashboardEmptyState(

@@ -1,4 +1,5 @@
 import 'package:keeply/features/storage/data/storage_api.dart';
+import 'package:keeply/features/storage/domain/entities/dashboard_api_summary.dart';
 import 'package:keeply/features/storage/domain/entities/item_path.dart';
 import 'package:keeply/features/storage/domain/entities/storage_node.dart';
 import 'package:keeply/features/storage/domain/entities/storage_tree_node.dart';
@@ -7,6 +8,9 @@ import 'package:keeply/features/storage/domain/storage_repository.dart';
 class StorageRepositoryImpl implements StorageRepository {
   StorageRepositoryImpl(this._api);
   final StorageApi _api;
+  @override
+  Future<DashboardApiSummary> getDashboardSummary() =>
+      _api.getDashboardSummary();
   @override
   Future<List<StorageNode>> listSpaces() => _api.listSpaces();
   @override
@@ -17,7 +21,8 @@ class StorageRepositoryImpl implements StorageRepository {
   @override
   Future<void> deleteSpace(String id) => _api.deleteSpace(id);
   @override
-  Future<StorageTreeNode> getSpaceTree(String id) => _api.getSpaceTree(id);
+  Future<StorageTreeNode> getSpaceTree(String id, {int? depth}) =>
+      _api.getSpaceTree(id, depth: depth);
   @override
   Future<StorageNode> createContainer({
     required String name,
@@ -34,8 +39,8 @@ class StorageRepositoryImpl implements StorageRepository {
     required String parentId,
   }) => _api.moveContainer(id: id, parentId: parentId);
   @override
-  Future<StorageTreeNode> getContainerTree(String id) =>
-      _api.getContainerTree(id);
+  Future<StorageTreeNode> getContainerTree(String id, {int? depth}) =>
+      _api.getContainerTree(id, depth: depth);
   @override
   Future<List<StorageNode>> listContainerItems(String id) =>
       _api.listContainerItems(id);

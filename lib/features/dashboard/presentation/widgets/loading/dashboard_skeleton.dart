@@ -22,17 +22,12 @@ class DashboardSkeleton extends StatelessWidget {
               DashboardSkeletonBox(height: 40, width: 120),
               Spacer(),
               DashboardSkeletonBox(height: 48, width: 48, radius: 24),
-            ],
-          ),
-          SizedBox(height: spacing.lg),
-          const Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(child: DashboardSkeletonBox(height: 28, width: double.infinity)),
-              SizedBox(width: 16),
+              SizedBox(width: 8),
               DashboardSkeletonBox(height: 48, width: 48, radius: 24),
             ],
           ),
+          SizedBox(height: spacing.lg),
+          const DashboardSkeletonBox(height: 56, width: double.infinity),
           SizedBox(height: spacing.lg),
           const Row(
             children: [
@@ -44,7 +39,17 @@ class DashboardSkeleton extends StatelessWidget {
           SizedBox(height: spacing.lg),
           for (var i = 0; i < 5; i++) const SpaceCardSkeleton(),
           SizedBox(height: spacing.md),
-          for (var i = 0; i < 5; i++) const ContainerCardSkeleton(),
+          SizedBox(
+            height: 236,
+            child: Row(
+              children: [
+                for (var i = 0; i < 3; i++) ...[
+                  if (i > 0) SizedBox(width: spacing.md),
+                  const ContainerCardSkeleton(),
+                ],
+              ],
+            ),
+          ),
           SizedBox(height: spacing.md),
           for (var i = 0; i < 10; i++) const ItemCardSkeleton(),
         ],
